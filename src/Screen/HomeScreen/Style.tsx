@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   noDataText: {
-    alignSelf: "center", fontSize: 25
+    alignSelf: "center", fontSize: 25,
+    color:"#000"
   },
   loadingView: {
     flex: 1,

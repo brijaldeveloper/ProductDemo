@@ -12,6 +12,7 @@ const SearchBar = (props: ISearchBar) => {
             <View style={styles.inputView}>
                 <TextInput
                 value={props.value}
+                placeholderTextColor={'#aaa'}
                     placeholder='Search Product'
                     onChangeText={props.onChangeText}
                     style={{ fontSize: 18, color: "#000" }}
