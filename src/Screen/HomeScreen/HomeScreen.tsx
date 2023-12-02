@@ -20,6 +20,12 @@ const HomeScreen = (props: any) => {
 
   useEffect(() => {
     GetProductList();
+    const unsubscribe = navigation.addListener('focus', () => {
+      GetProductList();
+      setSearchText('')
+    });
+
+    return unsubscribe;
   }, []);
 
   const GetProductList = () => {
