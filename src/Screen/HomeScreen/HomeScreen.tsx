@@ -30,7 +30,6 @@ const HomeScreen = (props: any) => {
       .then((res) => res.json())
       .then((response) => {
         setLoading(false)
-        console.log('response data', response);
         setMasterDataSource(response.products); // Display the first 10 items initially
         setProductList(response.products.slice(0, itemsPerPage));
       });
@@ -53,6 +52,7 @@ const HomeScreen = (props: any) => {
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
+      console.log("new data *****",newData)
       setSearchText(text)
       setProductList(newData);
     } else {
@@ -112,11 +112,11 @@ const HomeScreen = (props: any) => {
         </View>
       ) : (
         <FlatList
+
+        data={productList}
+        renderItem={renderData}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-          data={productList}
-          renderItem={renderData}
-          onEndReached={loadMoreData} // Load more data when reaching the end of the list
-          onEndReachedThreshold={0.1} // Adjust as needed
+         keyExtractor={(item, index) => item.id.toString()}
         />
       )}
     </View>
