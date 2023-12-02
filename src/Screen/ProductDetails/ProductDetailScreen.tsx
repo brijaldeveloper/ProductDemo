@@ -26,6 +26,7 @@ const ProductDetailScreen = (props: any) => {
       onPress={()=>props.navigation.goBack()}
        />
       <SliderBox
+      resizeMode="contain"
         ImageComponentStyle={styles.boxStyle}
         sliderBoxHeight={300}
         activeOpacity={0.5}
