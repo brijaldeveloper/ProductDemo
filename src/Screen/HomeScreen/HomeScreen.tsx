@@ -1,4 +1,4 @@
-import { FlatList, RefreshControl, SafeAreaView, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { styles } from './Style';
 import SearchBar from '../../Component/SearchBar';
@@ -15,6 +15,7 @@ const HomeScreen = (props: any) => {
   const [masterDataSource, setMasterDataSource] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [searchText ,setSearchText] =useState('')
+  const [loading ,setLoading] =useState(false)
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -22,11 +23,13 @@ const HomeScreen = (props: any) => {
   }, []);
 
   const GetProductList = () => {
+    setLoading(true)
     fetch('https://dummyjson.com/products', {
       method: 'Get',
     })
       .then((res) => res.json())
       .then((response) => {
+        setLoading(false)
         console.log('response data', response);
         setMasterDataSource(response.products); // Display the first 10 items initially
         setProductList(response.products.slice(0, itemsPerPage));
@@ -80,31 +83,47 @@ const HomeScreen = (props: any) => {
   };
 
   return (
+    <>
+   
     <SafeAreaView style={styles.container}>
+    
       <Header
       isBackIcon={false}
       />
       <SearchBar
+      value={searchText}
         onChangeText={(text: any) => {
           searchFilterFunction(text);
         }}
       />
+       {
+      loading ?
+      <View style={styles.loadingView}>
+        <ActivityIndicator
+        color={"blue"}
+        style={{alignSelf:"center"}}>
+
+        </ActivityIndicator>
+      </View>:
       <View style={{ flex: 1 }}>
-        {productList.length === 0 ? (
-          <View style={{ flex: 1, justifyContent: 'center' }}>
-            <Text style={styles.noDataText}>Data not found</Text>
-          </View>
-        ) : (
-          <FlatList
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            data={productList}
-            renderItem={renderData}
-            onEndReached={loadMoreData} // Load more data when reaching the end of the list
-            onEndReachedThreshold={0.1} // Adjust as needed
-          />
-        )}
-      </View>
+      {productList.length === 0 ? (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <Text style={styles.noDataText}>Data not found</Text>
+        </View>
+      ) : (
+        <FlatList
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          data={productList}
+          renderItem={renderData}
+          onEndReached={loadMoreData} // Load more data when reaching the end of the list
+          onEndReachedThreshold={0.1} // Adjust as needed
+        />
+      )}
+    </View>
+    }
+      
     </SafeAreaView>
+    </>
   );
 };
 

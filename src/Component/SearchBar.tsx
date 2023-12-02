@@ -2,7 +2,8 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 interface ISearchBar {
-    onChangeText: any
+    onChangeText: any,
+    value:string
 }
 
 const SearchBar = (props: ISearchBar) => {
@@ -10,6 +11,7 @@ const SearchBar = (props: ISearchBar) => {
         <View style={styles.container}>
             <View style={styles.inputView}>
                 <TextInput
+                value={props.value}
                     placeholder='Search Product'
                     onChangeText={props.onChangeText}
                     style={{ fontSize: 18, color: "#000" }}
